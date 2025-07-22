@@ -51,33 +51,33 @@ class TypeCheckListener(SimpleLangListener):
       return True
     return False
 
-  # def can_compare(self, left_type, right_type):
-  #   """Determina si dos tipos pueden compararse con =="""
-  #   # Números pueden compararse entre sí
-  #   if isinstance(left_type, (IntType, FloatType)) and isinstance(right_type, (IntType, FloatType)):
-  #       return True
-  #   # Tipos del mismo tipo pueden compararse
-  #   if type(left_type) == type(right_type):
-  #       return True
-  #   # Otras combinaciones no son válidas
-  #   return False
+  def can_compare(self, left_type, right_type):
+    """Determina si dos tipos pueden compararse con =="""
+    # Números pueden compararse entre sí
+    if isinstance(left_type, (IntType, FloatType)) and isinstance(right_type, (IntType, FloatType)):
+        return True
+    # Tipos del mismo tipo pueden compararse
+    if type(left_type) == type(right_type):
+        return True
+    # Otras combinaciones no son válidas
+    return False
   
-  # def enterEqual(self, ctx: SimpleLangParser.EqualContext):
-  #   pass
+  def enterEqual(self, ctx: SimpleLangParser.EqualContext):
+    pass
 
-  # def exitEqual(self, ctx: SimpleLangParser.EqualContext):
-  #   left_type = self.types[ctx.expr(0)]
-  #   right_type = self.types[ctx.expr(1)]
-  #   if not self.can_compare(left_type, right_type):
-  #     self.errors.append(f"Cannot compare {left_type} and {right_type}")
-  #   self.types[ctx] = BoolType()  # Comparaciones siempre retornan bool
+  def exitEqual(self, ctx: SimpleLangParser.EqualContext):
+    left_type = self.types[ctx.expr(0)]
+    right_type = self.types[ctx.expr(1)]
+    if not self.can_compare(left_type, right_type):
+      self.errors.append(f"Cannot compare {left_type} and {right_type}")
+    self.types[ctx] = BoolType()  # Comparaciones siempre retornan bool
 
-  # def enterAnd(self, ctx: SimpleLangParser.AndContext):
-  #   pass
+  def enterAnd(self, ctx: SimpleLangParser.AndContext):
+    pass
 
-  # def exitAnd(self, ctx: SimpleLangParser.AndContext):
-  #   left_type = self.types[ctx.expr(0)]
-  #   right_type = self.types[ctx.expr(1)]
-  #   if not (isinstance(left_type, BoolType) and isinstance(right_type, BoolType)):
-  #     self.errors.append(f"Logical operator && requires boolean operands, got {left_type} and {right_type}")
-  #   self.types[ctx] = BoolType()
+  def exitAnd(self, ctx: SimpleLangParser.AndContext):
+    left_type = self.types[ctx.expr(0)]
+    right_type = self.types[ctx.expr(1)]
+    if not (isinstance(left_type, BoolType) and isinstance(right_type, BoolType)):
+      self.errors.append(f"Logical operator && requires boolean operands, got {left_type} and {right_type}")
+    self.types[ctx] = BoolType()
